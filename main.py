@@ -74,10 +74,3 @@ def Db_User_Privileges(ip_list, user_password, db_table_privileges):
 
   return True
 ## End function
-
-ip = ['120..']
-u_c = {'hola': 'caca'}
-db_t_p = {'db': {'*': ['ALL', 'SELECT']},}
-
-Db_User_Privileges(ip, u_c, db_t_p)
-
