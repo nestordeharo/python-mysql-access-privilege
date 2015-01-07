@@ -31,8 +31,8 @@ def Db_User_Privileges(ip_list, user_password, db_table_privileges):
 
   output = ''
 
-  for individual_ip in whitelist_ip:
-    for user, password in user_password_list.iteritems():
+  for individual_ip in ip_list:
+    for user, password in user_password.iteritems():
 
       if not user or not password:
         function_error('User or password are empty')
@@ -45,7 +45,7 @@ def Db_User_Privileges(ip_list, user_password, db_table_privileges):
       ## Create the user for each ip address and assign a password
       output += "CREATE USER '%s'@'%s' IDENTIFIED BY '%s'; " % (user, individual_ip, password)
 
-      for db, table_privilege in db_privileges.iteritems():
+      for db, table_privilege in db_table_privileges.iteritems():
 
         if not db or not table_privilege:
           function_error('Database or Table dictionary are empty')
@@ -54,15 +54,30 @@ def Db_User_Privileges(ip_list, user_password, db_table_privileges):
           function_error('* should be alone for database: '+db)
 
         for table, privileges in table_privilege.iteritems():
-          if not table or not privileges:
+          if not isinstance(privileges, list):
+            function_error('Privileges is not a list')
+
+          elif not table or not privileges:
             function_error('Table or Privileges list are empty')
+
+          privileges = [x.upper() for x in privileges]
+
+          if ('ALL' in privileges or 'ALL PRIVILEGES' in privileges) and len(privileges) > 1:
+            function_error('ALL privileges should be used alone')
 
           output += "GRANT %s ON %s.%s TO '%s'@'%s';" % (', '.join(privileges), db, table, user, individual_ip)
 
   ## Print the information
-  output += 'FLUSH PRIVILEGES;'
+  output += ' FLUSH PRIVILEGES;'
 
   print output
 
   return True
 ## End function
+
+ip = ['120..']
+u_c = {'hola': 'caca'}
+db_t_p = {'db': {'*': ['ALL', 'SELECT']},}
+
+Db_User_Privileges(ip, u_c, db_t_p)
+
