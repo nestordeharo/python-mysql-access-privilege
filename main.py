@@ -60,6 +60,8 @@ def Db_User_Privileges(ip_list, user_password, db_table_privileges):
           output += "GRANT %s ON %s.%s TO '%s'@'%s';" % (', '.join(privileges), db, table, user, individual_ip)
 
   ## Print the information
+  output += 'FLUSH PRIVILEGES;'
+
   print output
 
   return True
