@@ -6,7 +6,7 @@ This is a simple script in Python that help you to generate MySQL commands for w
 
 At the end of this script, you just copy paste the output and integrate into MySQL shell.
 
-## Suppor
+## Support Version
 Python 2.x.x
 
 ## Usage
