@@ -36,3 +36,8 @@ The function inside the `main.py`: *Db_User_Privileges* needs three different va
     ...
   }
 ```
+Then we need to call the **Db_User_Privileges** function and the script will print the commands you could introduce in the MySQL shell
+
+```Python
+  result = Db_User_Privileges(ip_list, user_password_dict, db_table_privilege)
+``` 
